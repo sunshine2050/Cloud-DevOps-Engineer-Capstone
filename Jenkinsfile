@@ -30,8 +30,16 @@ pipeline {
 				echo 'Deploying to AWS EKS...'
 				dir ('./') {
 					withAWS(credentials: 'Jenkins', region: 'us-east-2') {
-						sh "aws eks --region us-east-2 update-kubeconfig --name sunshine2050/cloud-devops-engineer-capstone:latest"
-						
+						sh "eksctl create cluster \
+							--name capstone \
+							--version 1.16 \
+							--region us-east-2 \
+							--nodegroup-name standard-workers \
+							--node-type t2.micro \
+							--nodes 1 \
+							--nodes-min 1 \
+							--nodes-max 1 \
+							--managed"
 					}
 				}
 			}
