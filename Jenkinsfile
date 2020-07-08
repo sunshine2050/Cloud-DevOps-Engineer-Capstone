@@ -25,14 +25,13 @@ pipeline {
 				}
 			}
 		}
-		stage('Deploying to AWS EKS') {
+		stage('Deploying to Kubernetes locally') {
 			steps{
-				echo 'Deploying to AWS EKS...'
-				dir ('./') {
-					withAWS(credentials: 'Jenkins', region: 'us-east-2') {
-						sh "aws eks --region us-east-2 update-kubeconfig --name sunshine2050/cloud-devops-engineer-capstone:latest"
-					}
-				}
+				echo 'Deploying to Kubernetes ...'
+				kubectl run microservice1 --image=sunshine2050/operationalize-a-machine-learning-microservice-api:app --port=80
+				
+				kubectl get pods
+				kubectl port-forward microservice1 8000:80
 			}
 		}
 	}
