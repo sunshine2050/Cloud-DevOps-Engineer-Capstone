@@ -30,9 +30,8 @@ pipeline {
 				echo 'Deploying to AWS EKS...'
 				dir ('./') {
 					withAWS(credentials: 'Jenkins', region: 'us-east-2') {
-						sh "aws eks --region us-east-2 update-kubeconfig --name cloud-devops-engineer-capstone"
-						sh "kubectl get nodes"
-						sh "kubectl get pods"
+						sh "kubectl apply -f cluster.yml"
+						sh "kubectl rollout restart deployment/capstone"
 					}
 				}
 			}
