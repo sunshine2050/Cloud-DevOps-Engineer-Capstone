@@ -1,7 +1,7 @@
 spec:
     containers:
     - name: capstone
-        image: sunshine2050/cloud-devops-engineer-capstone
+        image: sunshine2050/cloud-devops-engineer-capstone:latest
         imagePullPolicy: Always
         ports:
             containerPort: 80
