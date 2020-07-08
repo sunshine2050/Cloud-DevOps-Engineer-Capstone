@@ -20,7 +20,8 @@ pipeline {
 				echo 'Building Docker image ...'
 				withCredentials([usernamePassword(credentialsId: 'Docker', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
 					sh "sudo docker login -u ${env.dockerUser} -p ${env.dockerPassword}"   
-					sh "sudo docker build -t sunshine2050/app"
+					sh "sudo docker build -t sunshine2050/cloud-devops-engineer-capstone ."
+					sh "sudo docker push sunshine2050/cloud-devops-engineer-capstone"
 				}
 			}
 		}
@@ -29,7 +30,7 @@ pipeline {
 				echo 'Deploying to AWS EKS...'
 				dir ('./') {
 					withAWS(credentials: 'Jenkins', region: 'us-east-2') {
-						sh "aws eks --region us-east-2 update-kubeconfig --name app"
+						sh "aws eks --region us-east-2 update-kubeconfig --name cloud-devops-engineer-capston"
 						sh "kubectl get nodes"
 						sh "kubectl get pods"
 					}
