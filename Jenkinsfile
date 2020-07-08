@@ -1,4 +1,5 @@
 pipeline {
+	node any
 	stages{
 		stage('Checking out git repo') {
 			steps{
