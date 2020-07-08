@@ -11,6 +11,7 @@ pipeline {
 			steps {
 			  echo 'Linting...'
 			  sh '/bin/hadolint Dockerfile'
+			  sh 'tidy -q -e *.html'
 			}
 		}
 
