@@ -28,7 +28,7 @@ pipeline {
 		stage('Deploying to Kubernetes locally') {
 			steps{
 				echo 'Deploying to Kubernetes ...'
-				kubectl run microservice1 --image=sunshine2050/operationalize-a-machine-learning-microservice-api:app --port=80
+				kubectl run microservice1 --image=sunshine2050/operationalize-a-machine-learning-microservice-api:latest --port=80
 				
 				kubectl get pods
 				kubectl port-forward microservice1 8000:80
