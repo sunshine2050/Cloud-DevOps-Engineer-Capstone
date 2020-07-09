@@ -27,22 +27,15 @@ pipeline {
 		}
 		stage('Deploying to AWS EKS') {
 			steps{
-				echo 'Deploying to AWS EKS...'
-				dir ('./') {
-					withAWS(credentials: 'Jenkins', region: 'us-east-2') {
-						sh "eksctl create cluster \
-							--name capstone \
-							--version 1.16 \
-							--region us-east-2 \
-							--nodegroup-name standard-workers \
-							--node-type t2.micro \
-							--nodes 1 \
-							--nodes-min 1 \
-							--nodes-max 1 \
-							--managed"
-					}
-				}
+				sh '''kubectl apply -f kubernetes/prod.yml'''
+				sh '''kubectl apply -f kubernetes/lb.yml'''
+
 			}
+		}
+		stage('Rollout Deployment') {
+		  steps {
+			sh 'kubectl rollout restart deployment/capstone'
+		  }
 		}
 	}
 }
