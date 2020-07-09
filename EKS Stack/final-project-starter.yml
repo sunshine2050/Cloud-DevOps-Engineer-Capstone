@@ -111,7 +111,7 @@ Resources:
         Properties:
             Name: EKSCluster
             Version: '1.16'
-            RoleArn: 'arn:aws:iam::628641662978:role/eksServiceRole'
+            RoleArn: 'arn:aws:iam::603172602971:role/eksClusterRole'
             ResourcesVpcConfig:
                 SecurityGroupIds:
                     - !Ref EKSSecurityGroup
@@ -123,11 +123,11 @@ Resources:
         Type: 'AWS::EKS::Nodegroup'
         Properties:
             ClusterName: !Ref EKSCluster
-            NodeRole: 'arn:aws:iam::603172602971:instance-profile/NodeInstanceRole'
+            NodeRole: 'arn:aws:iam::603172602971:role/NodeInstanceRole'
             ScalingConfig:
                 MinSize: 1
                 DesiredSize: 1
-                MaxSize: 1
+                MaxSize: 3
             Subnets:
                 - !Ref PublicSubnet1
                 - !Ref PublicSubnet2
