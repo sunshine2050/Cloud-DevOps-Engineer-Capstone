@@ -27,14 +27,19 @@ pipeline {
 		}
 		stage('Deploying to AWS EKS') {
 			steps{
-				sh '''kubectl apply -f kubernetes/prod.yml'''
-				sh '''kubectl apply -f kubernetes/lb.yml'''
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'Jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+        			sh '''kubectl apply -f kubernetes/prod.yml'''
+        			sh '''kubectl apply -f kubernetes/lb.yml'''
+				}
 
 			}
 		}
 		stage('Rollout Deployment') {
 		  steps {
-			sh 'kubectl rollout restart deployment/capstone'
+            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'Jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+		        sh 'kubectl rollout restart deployment/capstone'
+
+			}
 		  }
 		}
 	}
