@@ -27,14 +27,14 @@ pipeline {
 		}
 		stage('Deploying to AWS EKS') {
 			steps{
-				sh '''kubectl apply -f kubernetes/prod.yml'''
-				sh '''kubectl apply -f kubernetes/lb.yml'''
+				sh '''kubectl apply -f prod.yml'''
+				sh '''kubectl apply -f lb.yml'''
 
 			}
 		}
 		stage('Rollout Deployment') {
 		  steps {
-				sh 'kubectl rollout restart deployment/capstone'
+				sh 'kubectl rollout restart deployment.apps/capstone'
 
 		  }
 		}
